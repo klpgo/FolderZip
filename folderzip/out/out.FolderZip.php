@@ -9,9 +9,13 @@
 *
 *   ext/folderzip/out/out.FolderZip.php?folderid=123
 *   ext/folderzip/out/out.FolderZip.php?folderid=123&recursive=1
+*   ext/folderzip/out/out.FolderZip.php?folderid=123&recursive=1&wrap=1
 *
 * recursive=1 also includes documents from all subfolders,
 * preserving the folder structure inside the ZIP.
+* wrap=1 additionally nests everything inside a top-level directory
+* named after the folder itself, instead of placing its documents
+* directly at the ZIP root.
 *
 * This follows the exact same bootstrap pattern used by SeedDMS's
 * own out/out.*.php scripts: including inc.ClassUI.php sets up the
@@ -70,6 +74,7 @@ if (!class_exists('ZipArchive')) {
 }
 
 $recursive = isset($_GET['recursive']) && $_GET['recursive'] == '1';
+$wrap = isset($_GET['wrap']) && $_GET['wrap'] == '1';
 
 // Safety limit: stops runaway downloads if someone accidentally
 // triggers a recursive download on a huge folder tree (e.g. the
@@ -180,7 +185,8 @@ function folderzip_unique_entry(ZipArchive $zip, $entryname) {
 
 $limitExceeded = false;
 try {
-	folderzip_add_folder($folder, $user, $zip, $recursive, $settings);
+	$initialBasepath = $wrap ? folderzip_sanitize_name($folder->getName()) . '/' : '';
+	folderzip_add_folder($folder, $user, $zip, $recursive, $settings, $initialBasepath);
 } catch (FolderZipLimitExceeded $e) {
 	$limitExceeded = true;
 }

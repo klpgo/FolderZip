@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # folderzip
 
 SeedDMS-Extension: lädt alle Dokumente eines Ordners als ZIP herunter.
@@ -10,9 +9,17 @@ SeedDMS-Extension: lädt alle Dokumente eines Ordners als ZIP herunter.
 
 ## Benutzung
 
-Unten in jeder Ordneransicht erscheinen zwei kleine Links:
-"Als ZIP herunterladen" (nur dieser Ordner) und "inkl. Unterordner"
-(rekursiv, mit Verzeichnisstruktur im ZIP).
+In der "Informationen"-Box der geöffneten Ordneransicht (oben, neben
+ID/Besitzer/Erstellt am) erscheint eine "Download"-Zeile: lädt
+**nur die Dokumente dieses Ordners** als ZIP (keine Unterordner,
+kein Wurzelverzeichnis im Archiv).
+
+Zusätzlich bekommt jede Unterordner-Zeile in einer Ordnerliste ein
+Download-Icon in der Aktion-Spalte (neben Löschen/Bearbeiten/
+Zwischenablage): lädt diesen Unterordner **inkl. aller Unterordner**
+herunter, mit dem Ordner selbst als Wurzelverzeichnis im ZIP
+(vorher Bestätigungsdialog, da das bei großen Bäumen lange dauern
+kann).
 
 Direkter Link, unabhängig vom UI:
 
@@ -26,9 +33,6 @@ ext/folderzip/out/out.FolderZip.php?folderid=<ID>&recursive=1
 - Nur die neueste Version jedes Dokuments wird eingepackt.
 - Es werden nur Dokumente/Ordner eingepackt, auf die der eingeloggte
   Nutzer mindestens Lesezugriff hat.
-- Der Name des SeedDMS Dokuments wird als Dateiname übernommen. Falls
-  keine Extension vorhanden ist, dann wird sie vom Filename des 
-  hochgeladenen Files übernommen.
 - Namensgleiche Dateien im selben Zielordner werden automatisch
   durchnummeriert.
 - Benötigt die PHP-Erweiterung `zip` (Klasse `ZipArchive`).
@@ -38,7 +42,3 @@ ext/folderzip/out/out.FolderZip.php?folderid=<ID>&recursive=1
   wenn zu viele Dokumente zusammenkommen würden. Grenze einstellbar
   in Admin Tools → Extension Manager → folderzip → Zahnrad-Symbol
   ("Max. Anzahl Dateien pro ZIP"), Standard: 500.
-=======
-# FolderZip
-SeedDMS extension to download (optional recursive) a folder and its documents.
->>>>>>> 72e757170ef985a7f37dce19cee96ec21cb2d3a6

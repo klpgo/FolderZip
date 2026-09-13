@@ -15,32 +15,47 @@ class SeedDMS_ExtFolderZip extends SeedDMS_ExtBase {
 }
 
 /**
- * Hook object for the ViewFolder view. Implements postContent(),
- * which SeedDMS echoes at the very end of the folder page content
- * (views/bootstrap/class.ViewFolder.php), below the document/
- * subfolder listing -- a compact, non-intrusive spot.
+ * Hook object for the ViewFolder view.
+ * - additionalFolderInfos(): adds a "Download" row to the
+ *   Informationen table of the CURRENTLY OPEN folder (top of the
+ *   page, next to ID/Besitzer/Erstellt am/...). Plain, non-recursive
+ *   download: only this folder's own documents, no subfolders, no
+ *   wrapping top-level directory -- same behaviour as the very first
+ *   version of this extension.
+ * - folderRowAction(): adds a download icon to the action column of
+ *   each SUBFOLDER row in a folder listing (next to delete/edit/
+ *   clipboard). This one IS recursive and wraps the result in a
+ *   top-level directory named after that subfolder, since it's used
+ *   to grab a whole subfolder without opening it first.
  */
 class SeedDMS_ExtFolderZip_ViewFolderHook {
 
-	function postContent($view) { /* {{{ */
-		$folder = method_exists($view, 'getParam') ? $view->getParam('folder') : null;
-		if (!$folder) {
-			return null;
-		}
-		$folderid = $folder->getID();
-
+	function additionalFolderInfos($view, $folder) { /* {{{ */
 		// Relative link, matching the convention used throughout
 		// SeedDMS core (e.g. "../out/out.ViewFolder.php?..."), since
 		// this page itself is rendered from out/out.ViewFolder.php.
-		$url = '../ext/folderzip/out/out.FolderZip.php?folderid=' . $folderid;
-		$urlRecursive = $url . '&recursive=1';
+		// Plain, non-recursive download: only this folder's own
+		// documents, no subfolders, no wrapping directory.
+		$url = '../ext/folderzip/out/out.FolderZip.php?folderid=' . $folder->getID();
+		$link = '<a href="' . $url . '" title="Als ZIP herunterladen"><i class="fa fa-download"></i> Dokumente als ZIP herunterladen</a>';
 
-		$html = '<div style="text-align:right; margin-top:12px; font-size:0.9em;">';
-		$html .= '<a href="' . $url . '">Als ZIP herunterladen</a>';
-		$html .= ' &middot; ';
-		$html .= '<a href="' . $urlRecursive . '" onclick="return confirm(\'Wirklich alle Dokumente inkl. Unterordner als ZIP herunterladen? Bei großen Ordnerbäumen kann das lange dauern oder abgebrochen werden.\');">inkl. Unterordner</a>';
-		$html .= '</div>';
+		return array(
+			array('Download', $link),
+		);
+	} /* }}} */
 
-		return $html;
+	function folderRowAction($view, $subFolder, $actions) { /* {{{ */
+		// Recursive + wrapped: grabs the whole subfolder (incl. its
+		// own subfolders), nested inside a top-level directory named
+		// after it in the resulting ZIP.
+		$url = '../ext/folderzip/out/out.FolderZip.php?folderid=' . $subFolder->getID() . '&recursive=1&wrap=1';
+		$actions['folderzip_download'] = array(
+			'link' => $url,
+			'title' => 'Als ZIP herunterladen (inkl. Unterordner)',
+			'label' => 'Als ZIP herunterladen (inkl. Unterordner)',
+			'icon' => 'download',
+			'confirmmsg' => 'Wirklich alle Dokumente inkl. Unterordner als ZIP herunterladen? Bei großen Ordnerbäumen kann das lange dauern oder abgebrochen werden.',
+		);
+		return $actions;
 	} /* }}} */
 }

@@ -19,7 +19,7 @@ $EXT_CONF['folderzip'] = array(
 	'title' => 'Folder as ZIP',
 	'description' => 'Adds the ability to download all documents of a folder (optionally including subfolders) as a single ZIP archive.',
 	'disable' => false,
-	'version' => '1.0.0',
+	'version' => '1.1.0',
 	'releasedate' => '2026-09-13',
 	'author' => array(
 		'name' => 'Klaus Gottschalk',
@@ -36,16 +36,20 @@ $EXT_CONF['folderzip'] = array(
 	'constraints' => array(
 		'depends' => array('php' => '7.2.0-', 'seeddms' => '5.1.0-'),
 	),
-        'icon' => 'icon.png',
+	'icon' => 'icon.png',
 	'changelog' => 'changelog.md',
-        'changes' => array(
-            '1.0.0' => array(
-                'Initial version',
-                'Download all documents of a folder (optionally incl. subfolders) as ZIP',
-                'Confirmation dialog for recursive download',
-                'Configurable safety limit for max. number of files per ZIP',
-            ),
-        ),
+	'changes' => array(
+		'1.1.0' => array(
+			'Download icon added to each subfolder row action list (list view of a parent folder)',
+                        'Moved non-recursive link in folder to metadata list on top',
+		),
+		'1.0.0' => array(
+			'Initial version',
+			'Download all documents of a folder (optionally incl. subfolders) as ZIP',
+			'Confirmation dialog for recursive download',
+			'Configurable safety limit for max. number of files per ZIP',
+		),
+	),
 	'class' => array(
 		'file' => 'class.folderzip.php',
 		'name' => 'SeedDMS_ExtFolderZip',

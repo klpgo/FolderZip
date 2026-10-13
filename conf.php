@@ -19,8 +19,8 @@ $EXT_CONF['folderzip'] = array(
 	'title' => 'Folder as ZIP',
 	'description' => 'Adds the ability to download all documents of a folder (optionally including subfolders) as a single ZIP archive.',
 	'disable' => false,
-	'version' => '1.1.0',
-	'releasedate' => '2026-09-13',
+	'version' => '1.2.0',
+	'releasedate' => '2026-10-13',
 	'author' => array(
 		'name' => 'Klaus Gottschalk',
 		'email' => 'klaus.gottschalk@kgem.de',
@@ -39,6 +39,10 @@ $EXT_CONF['folderzip'] = array(
 	'icon' => 'icon.png',
 	'changelog' => 'changelog.md',
 	'changes' => array(
+		'1.2.0' => array(
+			'Download row shortened to "als ZIP"',
+			'If the pdfmerge extension is enabled, its "als PDF" link is shown in the same Download row',
+		),
 		'1.1.0' => array(
 			'Download icon added to each subfolder row action list (list view of a parent folder)',
                         'Moved non-recursive link in folder to metadata list on top',

@@ -1,3 +1,9 @@
+Changes in version 1.2.0
+==========================
+
+- Download row shortened to "als ZIP"
+- If the pdfmerge extension is enabled, its "als PDF" link is shown in the same Download row
+
 Changes in version 1.1.0
 ==========================
 

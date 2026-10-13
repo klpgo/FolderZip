@@ -10,9 +10,13 @@ SeedDMS-Extension: lädt alle Dokumente eines Ordners als ZIP herunter.
 ## Benutzung
 
 In der "Informationen"-Box der geöffneten Ordneransicht (oben, neben
-ID/Besitzer/Erstellt am) erscheint eine "Download"-Zeile: lädt
+ID/Besitzer/Erstellt am) erscheint eine "Download"-Zeile mit dem Link **als ZIP**: lädt
 **nur die Dokumente dieses Ordners** als ZIP (keine Unterordner,
 kein Wurzelverzeichnis im Archiv).
+
+Ist zusätzlich die Extension [pdfmerge](https://github.com/klpgo/PdfMerge)
+aktiv, steht deren Link **als PDF** in derselben Zeile:
+`Download: als ZIP  als PDF`.
 
 Zusätzlich bekommt jede Unterordner-Zeile in einer Ordnerliste ein
 Download-Icon in der Aktion-Spalte (neben Löschen/Bearbeiten/

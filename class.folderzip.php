@@ -30,6 +30,10 @@ class SeedDMS_ExtFolderZip extends SeedDMS_ExtBase {
  */
 class SeedDMS_ExtFolderZip_ViewFolderHook {
 
+	// Tells pdfmerge that this version embeds its link in the
+	// "Download" row, so pdfmerge does not add a row of its own.
+	const PDFMERGE_INTEGRATION = true;
+
 	function additionalFolderInfos($view, $folder) { /* {{{ */
 		// Relative link, matching the convention used throughout
 		// SeedDMS core (e.g. "../out/out.ViewFolder.php?..."), since
@@ -37,7 +41,15 @@ class SeedDMS_ExtFolderZip_ViewFolderHook {
 		// Plain, non-recursive download: only this folder's own
 		// documents, no subfolders, no wrapping directory.
 		$url = '../ext/folderzip/out/out.FolderZip.php?folderid=' . $folder->getID();
-		$link = '<a href="' . $url . '" title="Als ZIP herunterladen"><i class="fa fa-download"></i> Dokumente als ZIP herunterladen</a>';
+		$link = '<a href="' . $url . '" title="Alle Dokumente dieses Ordners als ZIP herunterladen"><i class="fa fa-download"></i> als ZIP</a>';
+
+		// If the pdfmerge extension is enabled (its class is only
+		// loaded when it is), put its link into the same row, so the
+		// Informationen table shows "Download: als ZIP  als PDF".
+		// pdfmerge itself stays silent in that case.
+		if (class_exists('SeedDMS_ExtPdfMerge_ViewFolderHook')) {
+			$link .= '&nbsp;&nbsp;&nbsp;' . SeedDMS_ExtPdfMerge_ViewFolderHook::link($view, $folder);
+		}
 
 		return array(
 			array('Download', $link),
